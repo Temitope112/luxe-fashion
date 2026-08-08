@@ -2,90 +2,67 @@
 
 import Image from "next/image";
 import { useState } from "react";
-
+import type { Product } from "../../data/products";
 
 interface ProductGalleryProps {
-  product: {
-    name: string;
-    image: string;
-    hoverImage?: string;
-  };
+  product: Product;
 }
-
 
 export default function ProductGallery({
   product,
 }: ProductGalleryProps) {
-
-
-  const images = [
-    product.image,
-    product.hoverImage || product.image,
-    product.image,
-  ];
-
-
-  const [activeImage, setActiveImage] = useState(images[0]);
-
-
+  const [activeImage, setActiveImage] = useState(product.images[0]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[90px_1fr]">
-
+    <div className="flex flex-col gap-6 lg:flex-row">
 
       {/* Thumbnails */}
+      <div className="order-2 flex gap-3 overflow-x-auto lg:order-1 lg:flex-col lg:overflow-visible">
 
-      <div className="order-2 flex gap-4 lg:order-1 lg:flex-col">
-
-
-        {images.map((image,index)=>(
-
+        {product.images.map((image, index) => (
           <button
             key={index}
             onClick={() => setActiveImage(image)}
-            className={`relative h-20 w-20 overflow-hidden rounded-xl border transition ${
+            className={`relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl border-2 transition-all duration-300 ${
               activeImage === image
                 ? "border-black"
-                : "border-neutral-200"
+                : "border-neutral-200 hover:border-neutral-500"
             }`}
           >
-
             <Image
               src={image}
-              alt={`${product.name} thumbnail ${index + 1}`}
+              alt={`${product.name} ${index + 1}`}
               fill
-              sizes="80px"
+              sizes="96px"
               className="object-cover"
             />
-
           </button>
-
         ))}
 
-
       </div>
-
-
-
 
       {/* Main Image */}
+      <div className="order-1 flex-1">
 
-      <div className="relative aspect-square overflow-hidden rounded-3xl bg-neutral-100 lg:order-2">
+        <div className="flex h-[650px] items-center justify-center overflow-hidden rounded-3xl bg-neutral-100">
 
+          <div className="relative h-full w-full">
 
-        <Image
-          key={activeImage}
-          src={activeImage}
-          alt={product.name}
-          fill
-          sizes="(max-width:1024px) 100vw, 50vw"
-          priority
-          className="object-cover transition duration-500"
-        />
+            <Image
+              key={activeImage}
+              src={activeImage}
+              alt={product.name}
+              fill
+              priority
+              sizes="(max-width:1024px) 100vw, 50vw"
+              className="object-cover transition-transform duration-700 hover:scale-110"
+            />
 
+          </div>
+
+        </div>
 
       </div>
-
 
     </div>
   );

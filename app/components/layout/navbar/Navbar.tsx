@@ -19,26 +19,33 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
 
-    return () =>
+    return () => {
       window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b bg-white/90 backdrop-blur-xl shadow-sm"
+          ? "border-b bg-white/90 shadow-sm backdrop-blur-xl"
           : "bg-white"
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Logo */}
         <Logo />
 
-        <DesktopNav />
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex lg:items-center lg:gap-8">
+          <DesktopNav />
+          <NavActions />
+        </div>
 
-        <NavActions />
-
-        <MobileNav />
+        {/* Mobile + Tablet Navigation */}
+        <div className="lg:hidden">
+          <MobileNav />
+        </div>
       </div>
     </header>
   );

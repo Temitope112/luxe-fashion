@@ -10,13 +10,12 @@ export interface Product {
   rating: number;
   reviews: number;
 
-  badge: string;
+  badge?: string;
 
   colors: string[];
   sizes: string[];
 
   inStock: boolean;
 
-  image: string;
-  hoverImage: string;
+  images: string[];
 }

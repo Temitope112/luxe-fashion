@@ -1,24 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
 
 export default function Logo() {
   return (
     <Link
       href="/"
-      className="flex items-center gap-3"
+      className="shrink-0"
+      aria-label="LuxeStore home"
     >
-      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-black text-white">
-        <ShoppingBag className="h-5 w-5" />
-      </div>
-
       <div>
-        <h1 className="text-xl font-bold tracking-wide text-gray-900">
+        <h1 className="text-lg font-bold tracking-wide text-gray-900 sm:text-xl">
           LuxeStore
         </h1>
 
-        <p className="text-xs text-gray-500">
+        <p className="text-[10px] text-gray-500 sm:text-xs">
           Premium Fashion
         </p>
       </div>

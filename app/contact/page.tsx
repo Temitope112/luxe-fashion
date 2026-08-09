@@ -41,9 +41,7 @@ export default function ContactPage() {
     setSubmitted(true);
   };
 
-  // Replace this with the actual LuxeStore WhatsApp number.
-  // Format: country code + number, without + or spaces.
-  const whatsappNumber = "2348012345678";
+  const whatsappNumber = "2348057977603";
 
   const whatsappMessage = encodeURIComponent(
     "Hello LuxeStore, I would like to make an enquiry."

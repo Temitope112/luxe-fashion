@@ -1,7 +1,10 @@
 import { Suspense } from "react";
 import ProductsContent from "./ProductContent";
+import { getProducts } from "../../lib/products";
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const products = await getProducts();
+
   return (
     <Suspense
       fallback={
@@ -30,7 +33,7 @@ export default function ProductsPage() {
         </main>
       }
     >
-      <ProductsContent />
+      <ProductsContent products={products} />
     </Suspense>
   );
 }

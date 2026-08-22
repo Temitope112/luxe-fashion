@@ -4,9 +4,15 @@ import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 
 import ProductsGrid from "../components/products/ProductsGrid";
-import { products } from "../data/products";
+import type { Product } from "../types/product";
 
-export default function ProductsContent() {
+interface ProductsContentProps {
+  products: Product[];
+}
+
+export default function ProductsContent({
+  products,
+}: ProductsContentProps) {
   const searchParams = useSearchParams();
 
   const category = searchParams.get("category");
@@ -19,7 +25,7 @@ export default function ProductsContent() {
     return products.filter(
       (product) => product.category === category
     );
-  }, [category]);
+  }, [category, products]);
 
   const pageTitle = category || "All Products";
 
@@ -27,7 +33,6 @@ export default function ProductsContent() {
     <main className="min-h-screen bg-white text-neutral-950">
       <section className="px-6 pb-24 pt-16 sm:px-8 lg:px-10 lg:pb-32 lg:pt-24">
         <div className="mx-auto max-w-7xl">
-          {/* Header */}
           <p className="text-sm font-medium uppercase tracking-[0.3em] text-neutral-400">
             LuxeStore Collection
           </p>
@@ -53,7 +58,6 @@ export default function ProductsContent() {
             </p>
           </div>
 
-          {/* Products */}
           <ProductsGrid products={filteredProducts} />
         </div>
       </section>

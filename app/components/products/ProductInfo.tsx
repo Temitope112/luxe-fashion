@@ -10,7 +10,7 @@ import {
   Truck,
 } from "lucide-react";
 
-import type { Product } from "../../data/products";
+import type { Product } from "../../types/product";
 import { useCartStore } from "../../store/cart-store";
 import { useWishlistStore } from "../../store/wishlist-store";
 

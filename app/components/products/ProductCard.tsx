@@ -5,23 +5,10 @@ import Link from "next/link";
 import { Heart, Star } from "lucide-react";
 
 import { useWishlistStore } from "../../store/wishlist-store";
+import type { Product } from "../../types/product";
 
 interface ProductCardProps {
-  product: {
-    id: number;
-    slug: string;
-    name: string;
-    category: string;
-    price: number;
-    oldPrice: number;
-    rating: number;
-    reviews: number;
-    badge?: string;
-    images: string[];
-    colors: string[];
-    sizes: string[];
-    inStock: boolean;
-  };
+  product: Product;
 }
 
 export default function ProductCard({
@@ -78,7 +65,7 @@ export default function ProductCard({
             fill
             priority={false}
             sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
-            className="object-cover transition duration-700 group-hover:opacity-0 group-hover:scale-105"
+            className="object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-0"
           />
 
           <Image
@@ -87,7 +74,7 @@ export default function ProductCard({
             fill
             priority={false}
             sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
-            className="object-cover opacity-0 transition duration-700 group-hover:opacity-100 group-hover:scale-105"
+            className="object-cover opacity-0 transition duration-700 group-hover:scale-105 group-hover:opacity-100"
           />
 
           {product.badge && (
@@ -112,9 +99,11 @@ export default function ProductCard({
               ${product.price}
             </span>
 
-            <span className="text-sm text-neutral-400 line-through">
-              ${product.oldPrice}
-            </span>
+            {product.oldPrice !== null && (
+              <span className="text-sm text-neutral-400 line-through">
+                ${product.oldPrice}
+              </span>
+            )}
           </div>
 
           <div className="mt-3 flex items-center justify-between">

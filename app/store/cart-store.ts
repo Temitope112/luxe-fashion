@@ -1,7 +1,7 @@
 "use client";
 
 import { create } from "zustand";
-import type { Product } from "../data/products";
+import type { Product } from "../types/product";
 
 export interface CartItem {
   product: Product;

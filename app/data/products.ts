@@ -1,28 +1,8 @@
-export interface Product {
-  id: number;
-  slug: string;
-  name: string;
-  category: string;
-
-  price: number;
-  oldPrice: number;
-
-  rating: number;
-  reviews: number;
-
-  badge?: string;
-
-  colors: string[];
-  sizes: string[];
-
-  inStock: boolean;
-
-  images: string[];
-}
+import type { Product } from "../types/product";
 
 export const products: Product[] = [
   {
-    id: 1,
+    id: "1",
     slug: "classic-leather-jacket",
     name: "Classic Leather Jacket",
     category: "Women",
@@ -45,7 +25,7 @@ export const products: Product[] = [
   },
 
   {
-    id: 2,
+    id: "2",
     slug: "premium-sneakers",
     name: "Premium Sneakers",
     category: "Footwear",
@@ -68,7 +48,7 @@ export const products: Product[] = [
   },
 
   {
-    id: 3,
+    id: "3",
     slug: "luxury-handbag",
     name: "Luxury Handbag",
     category: "Accessories",
@@ -91,7 +71,7 @@ export const products: Product[] = [
   },
 
   {
-    id: 4,
+    id: "4",
     slug: "minimal-hoodie",
     name: "Minimal Hoodie",
     category: "Men",
@@ -114,7 +94,7 @@ export const products: Product[] = [
   },
 
   {
-    id: 5,
+    id: "5",
     slug: "elegant-dress",
     name: "Elegant Dress",
     category: "Women",
@@ -137,7 +117,7 @@ export const products: Product[] = [
   },
 
   {
-    id: 6,
+    id: "6",
     slug: "luxury-watch",
     name: "Luxury Watch",
     category: "Accessories",

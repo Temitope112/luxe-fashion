@@ -1,7 +1,5 @@
-
-"use client";
-
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   ArrowRight,
   Heart,
@@ -11,8 +9,10 @@ import {
   User,
 } from "lucide-react";
 
+import { getCurrentUser } from "../../lib/auth/user";
+
 const stats = [
-  {
+     {
     label: "Orders",
     value: "12",
     icon: Package,
@@ -30,7 +30,7 @@ const stats = [
 ];
 
 const recentOrders = [
-  {
+     {
     id: "#LX-1048",
     date: "Aug 04, 2026",
     items: "2 items",
@@ -53,7 +53,13 @@ const recentOrders = [
   },
 ];
 
-export default function AccountPage() {
+export default async function AccountPage() {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/auth/signin");
+  }
+
   return (
     <main className="min-h-screen bg-white text-neutral-950">
       <div className="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:px-10 lg:py-24">
@@ -66,7 +72,7 @@ export default function AccountPage() {
             </p>
 
             <h1 className="mt-4 text-4xl font-bold tracking-[-0.03em] sm:text-5xl lg:text-6xl">
-              Welcome back.
+              Welcome back, {user.firstName}.
             </h1>
 
             <p className="mt-5 max-w-xl leading-7 text-neutral-500">
@@ -197,7 +203,7 @@ export default function AccountPage() {
                   </p>
 
                   <p className="mt-2 font-medium">
-                    John Doe
+                    {user.firstName} {user.lastName}
                   </p>
                 </div>
 
@@ -207,7 +213,7 @@ export default function AccountPage() {
                   </p>
 
                   <p className="mt-2 break-all font-medium">
-                    john@example.com
+                    {user.email}
                   </p>
                 </div>
               </div>
@@ -304,4 +310,3 @@ export default function AccountPage() {
     </main>
   );
 }
-

@@ -7,7 +7,15 @@ import Logo from "./Logo";
 import MobileNav from "./MobileNav";
 import NavActions from "./NavActions";
 
-export default function Navbar() {
+interface NavbarProps {
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+}
+
+export default function Navbar({
+  isAuthenticated,
+  isAdmin,
+}: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -33,16 +41,17 @@ export default function Navbar() {
       }`}
     >
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
         <Logo />
 
-        {/* Desktop Navigation */}
         <div className="hidden lg:flex lg:items-center lg:gap-8">
           <DesktopNav />
-          <NavActions />
+
+          <NavActions
+            isAuthenticated={isAuthenticated}
+            isAdmin={isAdmin}
+          />
         </div>
 
-        {/* Mobile + Tablet Navigation */}
         <div className="lg:hidden">
           <MobileNav />
         </div>

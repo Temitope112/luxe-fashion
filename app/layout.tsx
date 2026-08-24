@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import Navbar from "./components/layout/navbar/Navbar";
-import Footer from "./components/layout/Footer";
+import NavbarWrapper from "./components/layout/navbar/NavbarWrapper";
+import FooterWrapper from "./components/layout/FooterWrapper";
 
 export const metadata: Metadata = {
   title: "LuxeStore",
@@ -17,13 +17,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
-        <Navbar />
+        <NavbarWrapper />
 
         <main className="flex-1">
           {children}
         </main>
 
-        <Footer />
+        <FooterWrapper />
       </body>
     </html>
   );

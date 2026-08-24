@@ -17,7 +17,15 @@ import { useCartStore } from "../../../store/cart-store";
 import { useWishlistStore } from "../../../store/wishlist-store";
 import CartDrawer from "../../../components/cart/CartDrawer";
 
-export default function NavActions() {
+interface NavActionsProps {
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+}
+
+export default function NavActions({
+  isAuthenticated,
+  isAdmin,
+}: NavActionsProps) {
   const router = useRouter();
 
   const [searchOpen, setSearchOpen] = useState(false);
@@ -59,6 +67,16 @@ export default function NavActions() {
     setSearchOpen(false);
   };
 
+  /* ---------------- ACCOUNT ---------------- */
+
+  const handleAccountClick = () => {
+    router.push(
+      isAuthenticated
+        ? "/account"
+        : "/auth/signin"
+    );
+  };
+
   return (
     <>
       {/* Search */}
@@ -88,9 +106,7 @@ export default function NavActions() {
       >
         <Heart
           className={`h-5 w-5 transition ${
-            wishlistCount > 0
-              ? "fill-black"
-              : ""
+            wishlistCount > 0 ? "fill-black" : ""
           }`}
         />
 
@@ -150,12 +166,27 @@ export default function NavActions() {
       <Button
         variant="ghost"
         size="icon"
-        aria-label="Account"
+        aria-label={
+          isAuthenticated
+            ? "My account"
+            : "Sign in"
+        }
         className="rounded-full"
-        onClick={() => router.push("/account")}
+        onClick={handleAccountClick}
       >
         <User className="h-5 w-5" />
       </Button>
+
+      {/* Admin */}
+      {isAdmin && (
+        <Button
+          variant="ghost"
+          className="rounded-full px-4 text-sm font-medium"
+          onClick={() => router.push("/admin")}
+        >
+          Admin
+        </Button>
+      )}
 
       {/* Search Panel */}
       {searchOpen && (

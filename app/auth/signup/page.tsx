@@ -9,7 +9,7 @@ export default function SignupPage() {
         <div className="mb-10 text-center">
           <Link
             href="/"
-            className="text-2xl font-bold tracking-[-0.04em]"
+            className="mt-8 text-2xl font-bold tracking-[-0.04em]"
           >
             LUXESTORE
           </Link>

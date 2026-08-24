@@ -5,10 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowLeft, Lock } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 import { useCartStore } from "../store/cart-store";
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const items = useCartStore((state) => state.items);
 
   const [form, setForm] = useState({
@@ -20,6 +21,9 @@ export default function CheckoutPage() {
     city: "",
     state: "",
   });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const subtotal = useMemo(() => {
     return items.reduce(
@@ -53,25 +57,72 @@ export default function CheckoutPage() {
       ...current,
       [name]: value,
     }));
+
+    if (error) {
+      setError("");
+    }
   };
 
-  const handleSubmit = (
-    event: React.FormEvent
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
 
-    if (!isFormComplete || items.length === 0) {
+    if (!isFormComplete || items.length === 0 || loading) {
       return;
     }
 
-    // Payment integration will be added here later.
-    console.log("Order ready for payment", {
-      customer: form,
-      items,
-      subtotal,
-      shipping,
-      total,
-    });
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...form,
+
+          items: items.map((item) => ({
+            productId: item.product.id,
+            quantity: item.quantity,
+            selectedColor: item.selectedColor,
+            selectedSize: item.selectedSize,
+          })),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(
+          data.error ||
+            "Unable to create your order. Please try again."
+        );
+
+        return;
+      }
+
+      console.log(
+  "Order created successfully:",
+  data.order
+);
+
+router.push(
+  `/order/success?orderId=${encodeURIComponent(
+    data.order.id
+  )}`
+);
+    } catch (error) {
+      console.error("CHECKOUT ERROR:", error);
+
+      setError(
+        "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (items.length === 0) {
@@ -201,7 +252,7 @@ export default function CheckoutPage() {
                     </div>
 
                     {/* Email */}
-                    <div>
+                    <div className="sm:col-span-2">
                       <label
                         htmlFor="email"
                         className="text-sm font-medium"
@@ -216,7 +267,7 @@ export default function CheckoutPage() {
                         value={form.email}
                         onChange={handleChange}
                         placeholder="you@example.com"
-                        className="mt-2 w-full rounded-xl border border-neutral-200 px-4 py-3 outline-none transition focus:border-black sm:col-span-2"
+                        className="mt-2 w-full rounded-xl border border-neutral-200 px-4 py-3 outline-none transition focus:border-black"
                       />
                     </div>
 
@@ -315,15 +366,34 @@ export default function CheckoutPage() {
                           <option value="">
                             Select state
                           </option>
-                          <option value="Lagos">Lagos</option>
-                          <option value="Oyo">Oyo</option>
-                          <option value="Ogun">Ogun</option>
+
+                          <option value="Lagos">
+                            Lagos
+                          </option>
+
+                          <option value="Oyo">
+                            Oyo
+                          </option>
+
+                          <option value="Ogun">
+                            Ogun
+                          </option>
+
                           <option value="Abuja">
                             Federal Capital Territory
                           </option>
-                          <option value="Rivers">Rivers</option>
-                          <option value="Kano">Kano</option>
-                          <option value="Other">Other</option>
+
+                          <option value="Rivers">
+                            Rivers
+                          </option>
+
+                          <option value="Kano">
+                            Kano
+                          </option>
+
+                          <option value="Other">
+                            Other
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -366,16 +436,24 @@ export default function CheckoutPage() {
 
                 {/* Submit */}
                 <div>
+                  {error && (
+                    <div className="mb-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+                      {error}
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    disabled={!isFormComplete}
+                    disabled={!isFormComplete || loading}
                     className={`w-full rounded-xl px-6 py-4 font-semibold transition ${
-                      isFormComplete
+                      isFormComplete && !loading
                         ? "bg-black text-white hover:bg-neutral-800"
                         : "cursor-not-allowed bg-neutral-200 text-neutral-400"
                     }`}
                   >
-                    Continue to Payment
+                    {loading
+                      ? "Creating Order..."
+                      : "Continue to Payment"}
                   </button>
 
                   {!isFormComplete && (

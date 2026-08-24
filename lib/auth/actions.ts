@@ -7,7 +7,10 @@ import {
   hashPassword,
   verifyPassword,
 } from "./password";
-import { createSession } from "./session";
+import {
+  createSession,
+  destroySession,
+} from "./session";
 
 export interface SignupState {
   error?: string;
@@ -175,4 +178,14 @@ export async function signin(
   });
 
   redirect("/account");
+}
+
+/* =========================
+   LOG OUT
+========================= */
+
+export async function logout() {
+  await destroySession();
+
+  redirect("/");
 }

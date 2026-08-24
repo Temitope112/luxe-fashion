@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 import { getCurrentUser } from "../../lib/auth/user";
-
+import { logout } from "../../lib/auth/actions";
 const stats = [
      {
     label: "Orders",
@@ -219,12 +219,21 @@ export default async function AccountPage() {
               </div>
 
               <button
-                type="button"
-                className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3.5 text-sm font-semibold text-black transition hover:bg-neutral-200"
-              >
-                <Settings className="h-4 w-4" />
-                Account Settings
-              </button>
+  type="button"
+  className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3.5 text-sm font-semibold text-black transition hover:bg-neutral-200"
+>
+  <Settings className="h-4 w-4" />
+  Account Settings
+</button>
+
+<form action={logout} className="mt-3">
+  <button
+    type="submit"
+    className="flex w-full items-center justify-center rounded-full border border-white/10 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-white hover:text-black cursor-pointer"
+  >
+    Log Out
+  </button>
+</form>
             </div>
           </aside>
         </div>
